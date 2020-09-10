@@ -4457,7 +4457,7 @@ function setAllScenes() {
     };
 
     var scene1_lightDir = [0.6, -1.0, -1.0];
-    var scene1_toonBands = 2.0;
+    var scene1_toonBands = 3.0;
     var scene1_toonStride = 0.05;
     var scene1_lightAmb = 0.05;
 	
