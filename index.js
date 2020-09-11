@@ -22,11 +22,24 @@ window.requestAnimFrame = ( function() {
       window.setTimeout(callback, 1000 / 60);
     };
   } ) (); 
+  
+const fpsElem = document.querySelector("#fps");
+var then = new Date();
+var now;
+
 function renderLoop(){
+  now = new Date();
+  const deltaTime = (now.getTime() - then.getTime()) / 1000.0;          // compute time since last frame
+  then = now;                            // remember time for next frame
+  const fps = 1 / deltaTime;             // compute frames per second
+  if(timer % 10 == 0)
+	fpsElem.textContent = fps.toFixed(1);  // update fps display
+	
   timer++;
   requestAnimFrame( renderLoop );
   render(); 
 }
+
 function render() {
    gl.clear(gl.COLOR_BUFFER_BIT| gl.DEPTH_BUFFER_BIT);
 
@@ -4459,7 +4472,7 @@ function setAllScenes() {
     var scene1_lightDir = [0.6, -1.0, -1.0];
     var scene1_toonBands = 3.0;
     var scene1_toonStride = 0.05;
-    var scene1_lightAmb = 0.05;
+    var scene1_lightAmb = 0.09;
 	
 	const scene1_starRange = 30.0;
 	const scene1_starPositions = [
@@ -4560,8 +4573,6 @@ function compileAllShaders() {
 	      float intensity = clamp(dot(uLightDir, vVertexNormal),0.0,1.0) + uLightAmb;
 	      gl_FragColor = vec4(uObjectColor * toonify(intensity), 1.0);
 	      float I = clamp(dot(uLightDir, vVertexNormal),0.0,1.0);
-
-          //gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
         }
     `;
     const rocket_shaderProgram = initShaderProgram(rocket_vsSource, rocket_fsSource);
